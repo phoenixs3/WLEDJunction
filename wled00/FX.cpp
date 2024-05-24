@@ -119,16 +119,9 @@ static const char _data_FX_MODE_JUCTIONLINEV[] PROGMEM = "JunctionLineVertical@!
  */
 uint16_t mode_junctionbox(void) {
   SEGMENT.fill(SEGCOLOR(1));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04, SEGCOLOR(0));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+1, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04+1, SEGCOLOR(0));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+2, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04+2, SEGCOLOR(0));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+3, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04+3, SEGCOLOR(0));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+4, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04+4, SEGCOLOR(0));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+5, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04+5, SEGCOLOR(0));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+6, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04+6, SEGCOLOR(0));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+7, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04+7, SEGCOLOR(0));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+8, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04+8, SEGCOLOR(0));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+9, SEGMENT.custom1*0.04+10, SEGMENT.custom2*0.04+9, SEGCOLOR(0));
+  for (int i = 0; i < SEGMENT.intensity*0.09; i++){
+    SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+i, SEGMENT.custom1*0.04+SEGMENT.intensity*0.08, SEGMENT.custom2*0.04+i, SEGCOLOR(0));
+  }
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
 static const char _data_FX_MODE_JUCTIONBOX[] PROGMEM = "JunctionBox@!,Size,X Location,Y Location,,, Custom color;Foreground,Background;;2";
