@@ -82,16 +82,17 @@ uint16_t mode_static(void) {
   SEGMENT.fill(SEGCOLOR(0));
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
-static const char _data_FX_MODE_STATIC[] PROGMEM = "SolidJ";
+static const char _data_FX_MODE_STATIC[] PROGMEM = "Solid";
 
 /*
- * Junction
+ * Junction Simple Circle Function
  */
 uint16_t mode_junctioncircle(void) {
-  SEGMENT.fill(SEGCOLOR(0));
+  SEGMENT.fill(BLACK);
+  SEGMENT.fill_circle(SEGMENT.custom1,SEGMENT.custom2,SEGMENT.custom3,SEGCOLOR(0));
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
-static const char _data_FX_MODE_JUCTIONCIRCLE[] PROGMEM = "JunctionFX";
+static const char _data_FX_MODE_JUCTIONCIRCLE[] PROGMEM = "JunctionCircle@!,Intensity,X Location,Y Location,Cirle Radius;!;!";
 
 
 /*
@@ -4613,7 +4614,7 @@ uint16_t mode_aurora(void) {
 
   return FRAMETIME;
 }
-static const char _data_FX_MODE_AURORA[] PROGMEM = "AuroraM@!,!;1,2,3;!;;sx=24,pal=50";
+static const char _data_FX_MODE_AURORA[] PROGMEM = "Aurora@!,!;1,2,3;!;;sx=24,pal=50";
 
 // WLED-SR effects
 
