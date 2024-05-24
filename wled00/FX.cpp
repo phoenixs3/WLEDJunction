@@ -88,11 +88,11 @@ static const char _data_FX_MODE_STATIC[] PROGMEM = "Solid";
  * Junction Simple Circle Function
  */
 uint16_t mode_junctioncircle(void) {
-  SEGMENT.fill(BLACK);
-  SEGMENT.fill_circle(SEGMENT.custom1,SEGMENT.custom2,SEGMENT.custom3,SEGCOLOR(0));
+  SEGMENT.fill(SEGCOLOR(0));
+  SEGMENT.fill_circle(SEGMENT.custom1,SEGMENT.custom2,SEGMENT.intensity,SEGCOLOR(1));
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
-static const char _data_FX_MODE_JUCTIONCIRCLE[] PROGMEM = "JunctionCircle@!,Intensity,X Location,Y Location,Cirle Radius;!;!";
+static const char _data_FX_MODE_JUCTIONCIRCLE[] PROGMEM = "JunctionCircle@!,Radius,X Location,Y Location,,, Custom color;Background,Foreground,Cus2,Cus3;;4";
 
 
 /*
