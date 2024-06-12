@@ -90,6 +90,7 @@ static const char _data_FX_MODE_STATIC[] PROGMEM = "Solid";
 uint16_t mode_junctioncircle(void) {
   SEGMENT.fill(SEGCOLOR(1));
   SEGMENT.fill_circle(SEGMENT.custom1*0.08,SEGMENT.custom2*0.08,SEGMENT.intensity*0.08,SEGCOLOR(0));
+  //SEGMENT.blendPixelColor()
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
 static const char _data_FX_MODE_JUCTIONCIRCLE[] PROGMEM = "JunctionCircle@!,Radius,X Location,Y Location,,, Custom color;Foreground,Background;;2";
@@ -125,6 +126,43 @@ uint16_t mode_junctionbox(void) {
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
 static const char _data_FX_MODE_JUCTIONBOX[] PROGMEM = "JunctionBox@!,Size,X Location,Y Location,,, Custom color;Foreground,Background;;2";
+
+/*
+ * Junction Simple Gradient Function
+ */
+uint16_t mode_junctiongradient(void) {
+  SEGMENT.fill(SEGCOLOR(1));
+  //for (int i = 0; i < SEGMENT.intensity*0.09; i++){
+  //  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+i, SEGMENT.custom1*0.04+SEGMENT.intensity*0.08, SEGMENT.custom2*0.04+i, SEGCOLOR(0));
+  //}
+  int gradval = 0;
+  for (int i = 0; i < SEGLEN; i++) {
+    //SEGMENT.setPixelColor(i, color_blend(SEGCOLOR(1), SEGMENT.color_from_palette(i, true, PALETTE_SOLID_WRAP, 0), lum));
+    if(i == 10){gradval += 255/20;}
+    if(i == 20){gradval += 255/20;}
+    if(i == 30){gradval += 255/20;}
+    if(i == 40){gradval += 255/20;}
+    if(i == 50){gradval += 255/20;}
+    if(i == 60){gradval += 255/20;}
+    if(i == 70){gradval += 255/20;}
+    if(i == 80){gradval += 255/20;}
+    if(i == 90){gradval += 255/20;}
+    if(i == 100){gradval += 255/20;}
+    if(i == 110){gradval += 255/20;}
+    if(i == 120){gradval += 255/20;}
+    if(i == 130){gradval += 255/20;}
+    if(i == 140){gradval += 255/20;}
+    if(i == 150){gradval += 255/20;}
+    if(i == 160){gradval += 255/20;}
+    if(i == 170){gradval += 255/20;}
+    if(i == 180){gradval += 255/20;}
+    if(i == 190){gradval += 255/20;}
+    if(i == 200){gradval += 255/20;}
+    SEGMENT.setPixelColor(i, color_blend(SEGCOLOR(0), SEGCOLOR(1), gradval));
+  }
+  return strip.isOffRefreshRequired() ? FRAMETIME : 350;
+}
+static const char _data_FX_MODE_JUCTIONGRADIENT[] PROGMEM = "JunctionGradient@!,Size,Angle;Foreground,Background;;2";
 
 /*
  * Blink/strobe function
@@ -7895,6 +7933,7 @@ void WS2812FX::setupEffectData() {
   addEffect(FX_MODE_JUCTIONLINEH, &mode_junctionlineh, _data_FX_MODE_JUCTIONLINEH);
   addEffect(FX_MODE_JUCTIONLINEV, &mode_junctionlinev, _data_FX_MODE_JUCTIONLINEV);
   addEffect(FX_MODE_JUCTIONBOX, &mode_junctionbox, _data_FX_MODE_JUCTIONBOX);
+  addEffect(FX_MODE_JUCTIONGRADIENT, &mode_junctiongradient, _data_FX_MODE_JUCTIONGRADIENT);
 
   // --- 2D  effects ---
 #ifndef WLED_DISABLE_2D
