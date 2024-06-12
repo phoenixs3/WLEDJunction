@@ -84,60 +84,113 @@ uint16_t mode_static(void) {
 }
 static const char _data_FX_MODE_STATIC[] PROGMEM = "Solid";
 
+CRGB getColorAtCoordinate(int x, int y, int width, int height, int angle, CRGB startColor, CRGB endColor) {
+  float angleRad = (angle * PI) / 180;
+  float sinangle = sin16(angleRad*10435) * 32767.0;
+  float cosangle = cos16(angleRad*10435) * 32767.0;
+  float D = width * cosangle + height * sinangle;
+  float s = x * cosangle + y * sinangle;  
+  float colorgradr = (endColor.r - startColor.r)/D;
+  int red = round(startColor.r + s*colorgradr);
+  float colorgradg = (endColor.g - startColor.g)/D;
+  int green = round(startColor.g + s*colorgradg);
+  float colorgradb = (endColor.b - startColor.b)/D;
+  int blue = round(startColor.b + s*colorgradb);
+  return CRGB(red, green, blue);
+}
+
 /*
  * Junction Simple Circle Function
  */
 uint16_t mode_junctioncircle(void) {
-  SEGMENT.fill(SEGCOLOR(1));
-  SEGMENT.fill_circle(SEGMENT.custom1*0.08,SEGMENT.custom2*0.08,SEGMENT.intensity*0.08,SEGCOLOR(0));
+  for (int x = 0; x < 21; x++) {
+    for (int y = 0; y < 21; y++) {
+      SEGMENT.setPixelColorXY(x,y,getColorAtCoordinate(x,y,20,20,90,SEGCOLOR(0),SEGCOLOR(1)));
+    }
+  }
+  SEGMENT.fill_circle(SEGMENT.custom1*0.08,SEGMENT.custom2*0.08,SEGMENT.intensity*0.08,SEGCOLOR(2));
   //SEGMENT.blendPixelColor()
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
-static const char _data_FX_MODE_JUCTIONCIRCLE[] PROGMEM = "JunctionCircle@!,Radius,X Location,Y Location,,, Custom color;Foreground,Background;;2";
+static const char _data_FX_MODE_JUCTIONCIRCLE[] PROGMEM = "JunctionCircle@!,Radius,X Location,Y Location,,, Custom color;g1,g2,sh;;3";
 
 /*
  * Junction Simple Horizontal Line Function
  */
 uint16_t mode_junctionlineh(void) {
-  SEGMENT.fill(SEGCOLOR(1));
-  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.08, (SEGMENT.custom1*0.04)+(SEGMENT.intensity*0.08), SEGMENT.custom2*0.08, SEGCOLOR(0));
+  for (int x = 0; x < 21; x++) {
+    for (int y = 0; y < 21; y++) {
+      SEGMENT.setPixelColorXY(x,y,getColorAtCoordinate(x,y,20,20,90,SEGCOLOR(0),SEGCOLOR(1)));
+    }
+  }
+  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.08, (SEGMENT.custom1*0.04)+(SEGMENT.intensity*0.08), SEGMENT.custom2*0.08, SEGCOLOR(2));
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
-static const char _data_FX_MODE_JUCTIONLINEH[] PROGMEM = "JunctionLineHorizontal@!,Size,X Location,Y Location,,, Custom color;Foreground,Background;;2";
+static const char _data_FX_MODE_JUCTIONLINEH[] PROGMEM = "JunctionLineHorizontal@!,Size,X Location,Y Location,,, Custom color;g1,g2,sh;;3";
 
 /*
  * Junction Simple Vertical Line Function
  */
 uint16_t mode_junctionlinev(void) {
-  SEGMENT.fill(SEGCOLOR(1));
-  SEGMENT.drawLine(SEGMENT.custom1*0.08, SEGMENT.custom2*0.04, SEGMENT.custom1*0.08, (SEGMENT.custom2)+(SEGMENT.intensity*0.08), SEGCOLOR(0));
+  for (int x = 0; x < 21; x++) {
+    for (int y = 0; y < 21; y++) {
+      SEGMENT.setPixelColorXY(x,y,getColorAtCoordinate(x,y,20,20,90,SEGCOLOR(0),SEGCOLOR(1)));
+    }
+  }
+  SEGMENT.drawLine(SEGMENT.custom1*0.08, SEGMENT.custom2*0.04, SEGMENT.custom1*0.08, (SEGMENT.custom2)+(SEGMENT.intensity*0.08), SEGCOLOR(2));
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
-static const char _data_FX_MODE_JUCTIONLINEV[] PROGMEM = "JunctionLineVertical@!,Size,X Location,Y Location,,, Custom color;Foreground,Background;;2";
+static const char _data_FX_MODE_JUCTIONLINEV[] PROGMEM = "JunctionLineVertical@!,Size,X Location,Y Location,,, Custom color;g1,g2,sh;;3";
 
 /*
  * Junction Simple Box Function
  */
 uint16_t mode_junctionbox(void) {
-  SEGMENT.fill(SEGCOLOR(1));
+  for (int x = 0; x < 21; x++) {
+    for (int y = 0; y < 21; y++) {
+      SEGMENT.setPixelColorXY(x,y,getColorAtCoordinate(x,y,20,20,90,SEGCOLOR(0),SEGCOLOR(1)));
+    }
+  }
   for (int i = 0; i < SEGMENT.intensity*0.09; i++){
-    SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+i, SEGMENT.custom1*0.04+SEGMENT.intensity*0.08, SEGMENT.custom2*0.04+i, SEGCOLOR(0));
+    SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+i, SEGMENT.custom1*0.04+SEGMENT.intensity*0.08, SEGMENT.custom2*0.04+i, SEGCOLOR(2));
   }
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
-static const char _data_FX_MODE_JUCTIONBOX[] PROGMEM = "JunctionBox@!,Size,X Location,Y Location,,, Custom color;Foreground,Background;;2";
+static const char _data_FX_MODE_JUCTIONBOX[] PROGMEM = "JunctionBox@!,Size,X Location,Y Location,,, Custom color;g1,g2,sh;;3";
+
+/*
+ * Junction Simple Triangle Function
+ */
+uint16_t mode_junctiontriangle(void) {
+  for (int x = 0; x < 21; x++) {
+    for (int y = 0; y < 21; y++) {
+      SEGMENT.setPixelColorXY(x,y,getColorAtCoordinate(x,y,20,20,90,SEGCOLOR(0),SEGCOLOR(1)));
+    }
+  }
+  
+  for (int i = 0; i < 11; i++){
+    SEGMENT.drawLine(10-i, 10+i, 10+i, 10+i, SEGCOLOR(2));
+  }
+  
+  return strip.isOffRefreshRequired() ? FRAMETIME : 350;
+}
+static const char _data_FX_MODE_JUCTIONTRIANGLE[] PROGMEM = "JunctionTriangle@!,Size,X Location,Y Location,,, Custom color;g1,g2,sh;;3";
+
 
 /*
  * Junction Simple Gradient Function
  */
 uint16_t mode_junctiongradient(void) {
-  SEGMENT.fill(SEGCOLOR(1));
-  //for (int i = 0; i < SEGMENT.intensity*0.09; i++){
-  //  SEGMENT.drawLine(SEGMENT.custom1*0.04, SEGMENT.custom2*0.04+i, SEGMENT.custom1*0.04+SEGMENT.intensity*0.08, SEGMENT.custom2*0.04+i, SEGCOLOR(0));
-  //}
+  for (int x = 0; x < 21; x++) {
+    for (int y = 0; y < 21; y++) {
+      SEGMENT.setPixelColorXY(x,y,getColorAtCoordinate(x,y,SEGMENT.intensity*0.15625,SEGMENT.intensity*0.15625,SEGMENT.custom1*0.35,SEGCOLOR(0),SEGCOLOR(1)));
+      //SEGMENT.setPixelColorXY(x,y,CRGB(x*10, y*10,0));
+    }
+  }
+  
+  /*
   int gradval = 0;
   for (int i = 0; i < SEGLEN; i++) {
-    //SEGMENT.setPixelColor(i, color_blend(SEGCOLOR(1), SEGMENT.color_from_palette(i, true, PALETTE_SOLID_WRAP, 0), lum));
     if(i == 10){gradval += 255/20;}
     if(i == 20){gradval += 255/20;}
     if(i == 30){gradval += 255/20;}
@@ -159,10 +212,10 @@ uint16_t mode_junctiongradient(void) {
     if(i == 190){gradval += 255/20;}
     if(i == 200){gradval += 255/20;}
     SEGMENT.setPixelColor(i, color_blend(SEGCOLOR(0), SEGCOLOR(1), gradval));
-  }
+  }*/
   return strip.isOffRefreshRequired() ? FRAMETIME : 350;
 }
-static const char _data_FX_MODE_JUCTIONGRADIENT[] PROGMEM = "JunctionGradient@!,Size,Angle;Foreground,Background;;2";
+static const char _data_FX_MODE_JUCTIONGRADIENT[] PROGMEM = "JunctionGradient@!,Size,Angle;g1,g2;!";
 
 /*
  * Blink/strobe function
@@ -7934,6 +7987,7 @@ void WS2812FX::setupEffectData() {
   addEffect(FX_MODE_JUCTIONLINEV, &mode_junctionlinev, _data_FX_MODE_JUCTIONLINEV);
   addEffect(FX_MODE_JUCTIONBOX, &mode_junctionbox, _data_FX_MODE_JUCTIONBOX);
   addEffect(FX_MODE_JUCTIONGRADIENT, &mode_junctiongradient, _data_FX_MODE_JUCTIONGRADIENT);
+  addEffect(FX_MODE_JUCTIONTRIANGLE, &mode_junctiontriangle, _data_FX_MODE_JUCTIONTRIANGLE);
 
   // --- 2D  effects ---
 #ifndef WLED_DISABLE_2D

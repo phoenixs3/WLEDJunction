@@ -319,8 +319,9 @@
 #define FX_MODE_JUCTIONLINEV           189
 #define FX_MODE_JUCTIONBOX             190
 #define FX_MODE_JUCTIONGRADIENT        191
+#define FX_MODE_JUCTIONTRIANGLE        192
 
-#define MODE_COUNT                     192
+#define MODE_COUNT                     193
 
 typedef enum mapping1D2D {
   M12_Pixels = 0,
